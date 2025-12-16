@@ -20,10 +20,9 @@ function buildTree(){
   const thickness = 0.10; // 0.07~0.13
 
   for (let i = 0; i < DOTS; i++){
-    const t = i / (DOTS - 1);                  // 0..1
-    const y = topY + t * (bottomY - topY);     // 위->아래
-    const radius = (1 - t) * maxRadius;        // 아래 넓고 위 좁게
-
+    const t = i / (DOTS - 1);                  
+    const y = topY + t * (bottomY - topY);     
+    const radius = t * maxRadius;   
     const angle = t * turns * Math.PI * 2;
 
     let x = Math.cos(angle) * radius;

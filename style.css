@@ -28,7 +28,6 @@ body{
   inset:0;
   transform-style:preserve-3d;
   transform-origin:50% 60%;
-  animation: spin 10s linear infinite;
 }
 @keyframes spin{
   from{ transform: translateY(10px) rotateY(0deg); }
