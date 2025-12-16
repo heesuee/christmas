@@ -1,3 +1,6 @@
+document.title = "UPDATED " + Date.now();
+
+
 const tree = document.getElementById("tree");
 if (!tree) throw new Error("#tree not found: check index.html id='tree'");
 
