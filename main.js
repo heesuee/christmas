@@ -19,19 +19,22 @@ function buildTree(){
   const turns = 5.0;
   const thickness = 0.10; // 0.07~0.13
 
-  for (let i = 0; i < DOTS; i++){
-    const t = i / (DOTS - 1);                  
-    const y = bottomY - t * (bottomY - topY);  // 아래→위
-    const radius = (1 - t) * maxRadius;        // 아래 넓고 위 좁게
-    const angle = t * turns * Math.PI * 2;
+for (let i = 0; i < DOTS; i++) {
+  const t = i / (DOTS - 1);                 // 0(위) -> 1(아래)
+  const y = topY + t * (bottomY - topY);    // 위 -> 아래
+  const radius = t * maxRadius;             // ✅ 위 좁고, 아래 넓게
 
-    let x = Math.cos(angle) * radius;
-    let z = Math.sin(angle) * radius * 0.55;
+  const angle = t * turns * Math.PI * 2;
 
-    // 리본 두께(너무 크면 삼각형 면처럼 보임)
-    const jitter = radius * thickness;
-    x += rand(-jitter, jitter);
-    z += rand(-jitter, jitter);
+  let x = Math.cos(angle) * radius;
+  let z = Math.sin(angle) * radius * 0.55;
+
+  const jitter = radius * thickness;
+  x += rand(-jitter, jitter);
+  z += rand(-jitter, jitter);
+
+  // ... 이하 el 생성/append는 그대로
+}
 
     const el = document.createElement("div");
     el.className = "light";
