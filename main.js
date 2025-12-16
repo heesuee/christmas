@@ -21,8 +21,8 @@ function buildTree(){
 
   for (let i = 0; i < DOTS; i++){
     const t = i / (DOTS - 1);                  
-    const y = topY + t * (bottomY - topY);     
-    const radius = t * maxRadius;   
+    const y = bottomY - t * (bottomY - topY);  // 아래→위
+    const radius = (1 - t) * maxRadius;        // 아래 넓고 위 좁게
     const angle = t * turns * Math.PI * 2;
 
     let x = Math.cos(angle) * radius;
