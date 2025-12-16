@@ -1,19 +1,56 @@
 const tree = document.getElementById("tree");
-console.log("tree =", tree);
+if (!tree) throw new Error("#tree not found: check index.html id='tree'");
 
-if (!tree) {
-  document.body.innerHTML = "<h1 style='color:white'>#tree not found</h1>";
-  throw new Error("#tree not found");
+const colors = ["var(--red)", "var(--pink)", "var(--white)"];
+const rand = (a, b) => Math.random() * (b - a) + a;
+
+function buildTree(){
+  // 기존 라이트 제거
+  tree.querySelectorAll(".light").forEach(el => el.remove());
+
+  const H = tree.clientHeight;
+  const W = tree.clientWidth;
+
+  // 튜닝
+  const DOTS = 120;
+  const topY = 78;
+  const bottomY = H - 45;
+  const maxRadius = W * 0.26;
+  const turns = 5.0;
+  const thickness = 0.10; // 0.07~0.13
+
+  for (let i = 0; i < DOTS; i++){
+    const t = i / (DOTS - 1);                  // 0..1
+    const y = topY + t * (bottomY - topY);     // 위->아래
+    const radius = (1 - t) * maxRadius;        // 아래 넓고 위 좁게
+
+    const angle = t * turns * Math.PI * 2;
+
+    let x = Math.cos(angle) * radius;
+    let z = Math.sin(angle) * radius * 0.55;
+
+    // 리본 두께(너무 크면 삼각형 면처럼 보임)
+    const jitter = radius * thickness;
+    x += rand(-jitter, jitter);
+    z += rand(-jitter, jitter);
+
+    const el = document.createElement("div");
+    el.className = "light";
+
+    el.style.setProperty("--x", `${x}px`);
+    el.style.setProperty("--y", `${y}px`);
+    el.style.setProperty("--z", `${z}px`);
+    el.style.setProperty("--s", `${rand(5, 8)}px`);
+    el.style.setProperty("--c", colors[Math.floor(rand(0, colors.length))]);
+    el.style.setProperty("--d", `${rand(0, 1.8)}s`);
+    el.style.setProperty("--tw", `${rand(1.0, 2.0)}s`);
+
+    tree.appendChild(el);
+  }
 }
 
-// 테스트: 점 1개만
-const el = document.createElement("div");
-el.className = "light";
-el.style.setProperty("--x", "0px");
-el.style.setProperty("--y", "160px");
-el.style.setProperty("--z", "0px");
-el.style.setProperty("--s", "10px");
-el.style.setProperty("--c", "#ffffff");
-tree.appendChild(el);
-
-console.log("light appended");
+buildTree();
+window.addEventListener("resize", () => {
+  clearTimeout(window.__rt);
+  window.__rt = setTimeout(buildTree, 120);
+});

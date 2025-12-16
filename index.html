@@ -3,96 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Spiral Tree</title>
-  <style>
-    :root{
-      --bg:#1f2b39;
-      --red:#ff3b3b;
-      --pink:#ffb3b3;
-      --white:#ffffff;
-      --gold:#ffe38a;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0}
-    body{display:grid;place-items:center;background:var(--bg);overflow:hidden}
-    .scene{width:min(420px,92vw);height:min(520px,92vh);position:relative;perspective:900px}
-    .tree{position:absolute;inset:0;transform-style:preserve-3d;transform-origin:50% 60%;animation:spin 10s linear infinite}
-    @keyframes spin{from{transform:translateY(10px) rotateY(0)}to{transform:translateY(10px) rotateY(360deg)}}
-
-    .light{
-      position:absolute; left:50%; top:0;
-      width:var(--s); height:var(--s); border-radius:999px;
-      background:var(--c);
-      transform: translate3d(calc(-50% + var(--x)), var(--y), var(--z));
-      opacity:.85;
-      animation: twinkle var(--tw) ease-in-out infinite;
-      animation-delay: var(--d);
-    }
-    @keyframes twinkle{
-      0%,100%{ transform:translate3d(calc(-50% + var(--x)),var(--y),var(--z)) scale(.85); opacity:.55; }
-      50%{ transform:translate3d(calc(-50% + var(--x)),var(--y),var(--z)) scale(1.18); opacity:1; filter:drop-shadow(0 0 12px rgba(255,255,255,.6)); }
-    }
-
-    .star{
-      position:absolute; left:50%; top:52px; width:22px; height:22px;
-      transform:translateX(-50%);
-      background:var(--gold);
-      clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
-      animation: starGlow 1.6s ease-in-out infinite;
-    }
-    @keyframes starGlow{
-      0%,100%{ transform:translateX(-50%) scale(.95); filter:drop-shadow(0 0 6px rgba(255,227,138,.4)); }
-      50%{ transform:translateX(-50%) scale(1.1); filter:drop-shadow(0 0 16px rgba(255,227,138,.9)); }
-    }
-  </style>
+  <title>Christmas Tree</title>
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
   <div class="scene">
     <div class="tree" id="tree">
-      <div class="star"></div>
+      <div class="star" aria-hidden="true"></div>
     </div>
   </div>
 
-  <script>
-    const tree = document.getElementById("tree");
-    const colors = ["var(--red)", "var(--pink)", "var(--white)"];
-    const rand = (a,b)=>Math.random()*(b-a)+a;
-
-    function build(){
-      tree.querySelectorAll(".light").forEach(e=>e.remove());
-
-      const H = tree.clientHeight, W = tree.clientWidth;
-      const DOTS = 110, topY = 78, bottomY = H - 45;
-      const maxRadius = W * 0.26, turns = 4.8, thickness = 0.10;
-
-      for(let i=0;i<DOTS;i++){
-        const t = i/(DOTS-1);
-        const y = topY + t*(bottomY-topY);
-        const radius = (1-t)*maxRadius;
-        const angle = t*turns*Math.PI*2;
-
-        let x = Math.cos(angle)*radius;
-        let z = Math.sin(angle)*radius*0.55;
-
-        const jitter = radius*thickness;
-        x += rand(-jitter, jitter);
-        z += rand(-jitter, jitter);
-
-        const el = document.createElement("div");
-        el.className = "light";
-        el.style.setProperty("--x", x + "px");
-        el.style.setProperty("--y", y + "px");
-        el.style.setProperty("--z", z + "px");
-        el.style.setProperty("--s", rand(5,8) + "px");
-        el.style.setProperty("--c", colors[Math.floor(rand(0, colors.length))]);
-        el.style.setProperty("--d", rand(0,1.8) + "s");
-        el.style.setProperty("--tw", rand(1.0,2.0) + "s");
-        tree.appendChild(el);
-      }
-    }
-
-    build();
-    addEventListener("resize", ()=>{ clearTimeout(window.__t); window.__t=setTimeout(build,120); });
-  </script>
+  <!-- 중요: body 맨 아래 -->
+  <script src="./main.js"></script>
 </body>
 </html>
