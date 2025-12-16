@@ -22,17 +22,7 @@ body{
   perspective: 900px;
 }
 
-/* 트리 전체 360도 회전 */
-.tree{
-  position:absolute;
-  inset:0;
-  transform-style:preserve-3d;
-  transform-origin:50% 60%;
-}
-@keyframes spin{
-  from{ transform: translateY(10px) rotateY(0deg); }
-  to{   transform: translateY(10px) rotateY(360deg); }
-}
+
 
 /* 점 */
 .light{
